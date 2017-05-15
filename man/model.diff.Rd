@@ -28,7 +28,7 @@ model.diff(data, outcome, covars, model, cov, coef, type = "logistic",
 Returns a list of results from analysis.
 }
 \description{
-The model-based addresses the fundamental question of whether the current treatment provides a clinically significant 
+The model-based sinlge-arm comparison addresses the fundamental question of whether the current treatment provides a clinically significant 
 improvement over prior treatments in the population. The proposed test statistic computes the difference between the 
 observed outcome from the current treatment and the covariate-specific predicted outcome based on a model of the 
 historical data. Thus, the difference between the observed and predicted quantities is attributed to the current 

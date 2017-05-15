@@ -1,0 +1,57 @@
+#' Calculate exact AUCs based on the riskribution of risk in a population.
+#'
+#' Provided a distribution of risks in a population, this function calculates the
+#' exact AUC of a model that produces the risk estiamtes.  For example, a logistic
+#' regression model built with a normal linear predictor yields logit-normal distributed
+#' predicted risks.  The AUC from the logisitc regression model is the same as the AUC estimated
+#' from the distribution of the predicted risks, indpendent of the outcome.  This method for AUC
+#' calculation is useful for simulative studies where the predicted risks are a mixture of two
+#' distributions.  The exact prevelance of the outcome can easily be calculated, along with the exact
+#' AUC of the model.
+#'
+#' @author Daniel D Sjoberg \email{sjobergd@@mskcc.org}
+#'
+#' @param density a function name that descirbes the continuous probability density function of the
+#' risk from 0 to 1.
+#' @param cut.points sequence of points in [0, 1] where the sensitivity and specificity are calculated.
+#' More points lead to a more precise estimate of the AUC.  Default is seq(from = 0, to = 1,by = 0.001).
+#' @param ... arguments for the function specified in density.  For example, dbeta(x, shape1=1, shape2=1)
+#' has need for two additional arguments to specify the density function (shape1 and shape2).
+#'
+#' @return Returns a list sensitities and specifcities at each cut point, and the AUC associated with
+#' the distribution.
+#'
+#' @examples
+#' density.auc(density=dbeta, shape1=1, shape2=1)
+#'
+#' @export
+#'
+density.auc=function(density, cut.points=seq(from = 0, to = 1,by = 0.001), ...){
+  # calculating distribution mean
+  mu=integrate(function(x) x*density(x, ...) ,0,1)$value
+
+  sensitivity=NULL
+  specificity=NULL
+  for(c in cut.points){
+    #calculating Sens and Spec using Bayes Rule
+    sens0=integrate(function(x) x*density(x, ...), c, 1)$value / mu
+    spec0=(integrate(function(x) density(x, ...) ,0,c)$value -
+             integrate(function(x) x*density(x, ...) ,0,c)$value) /
+      (1 - mu)
+
+    #appending calculated results
+    sensitivity=c(sensitivity,sens0)
+    specificity=c(specificity,spec0)
+  }
+
+  #calculating the AUC
+  auc=integrate(approxfun(1-specificity,sensitivity),0,1)$value
+
+  #retruning results
+  results=list(cut.points, sensitivity, specificity, auc)
+  names(results)=c("cut.point", "sensitivity", "specificity", "auc")
+
+  return(results)
+}
+
+density.auc(density=dbeta, shape1=1, shape2=1)
