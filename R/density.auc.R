@@ -18,8 +18,8 @@
 #' @param ... arguments for the function specified in density.  For example, dbeta(x, shape1=1, shape2=1)
 #' has need for two additional arguments to specify the density function (shape1 and shape2).
 #'
-#' @return Returns a list sensitities and specifcities at each cut point, and the AUC associated with
-#' the distribution.
+#' @return Returns a list sensitities and specifcities at each cut point, the expected value or
+#' mean risk, and the AUC associated with the distribution.
 #'
 #' @examples
 #' density.auc(density=dbeta, shape1=1, shape2=1)
@@ -48,8 +48,8 @@ density.auc=function(density, cut.points=seq(from = 0, to = 1,by = 0.001), ...){
   auc=integrate(approxfun(1-specificity,sensitivity),0,1)$value
 
   #retruning results
-  results=list(cut.points, sensitivity, specificity, auc)
-  names(results)=c("cut.point", "sensitivity", "specificity", "auc")
+  results=list(cut.points, sensitivity, specificity, mu, auc)
+  names(results)=c("cut.point", "sensitivity", "specificity", "mu", "auc")
 
   return(results)
 }
