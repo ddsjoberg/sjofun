@@ -44,8 +44,9 @@ density.auc=function(density, cut.points=seq(from = 0, to = 1,by = 0.001), ...){
     specificity=c(specificity,spec0)
   }
 
-  #calculating the AUC
-  auc=integrate(approxfun(1-specificity,sensitivity),0,1)$value
+  #calculating the AUC (using the trapezoidal rule)
+  idx = 2:length(cut.points)
+  auc=as.numeric(-(specificity[idx-1] - specificity[idx]) %*% (sensitivity[idx] + sensitivity[idx-1]) / 2)
 
   #retruning results
   results=list(cut.points, sensitivity, specificity, mu, auc)
