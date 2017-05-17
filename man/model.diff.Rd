@@ -8,7 +8,7 @@ model.diff(data, outcome, covars, model, cov, coef, type = "logistic",
   output.details = FALSE)
 }
 \arguments{
-\item{data}{a data frame containing the outcome of the outcome predictions.}
+\item{data}{a data frame containing the outcome and the outcome predictions.}
 
 \item{outcome}{the outcome, or response variable name. Must be a variable contained within the data frame specified in data=.}
 
@@ -28,19 +28,37 @@ model.diff(data, outcome, covars, model, cov, coef, type = "logistic",
 Returns a list of results from analysis.
 }
 \description{
-The model-based sinlge-arm comparison addresses the fundamental question of whether the current treatment provides a clinically significant 
-improvement over prior treatments in the population. The proposed test statistic computes the difference between the 
-observed outcome from the current treatment and the covariate-specific predicted outcome based on a model of the 
-historical data. Thus, the difference between the observed and predicted quantities is attributed to the current 
+The model-based sinlge-arm comparison addresses the fundamental question of whether the current treatment provides a clinically significant
+improvement over prior treatments in the population. The proposed test statistic computes the difference between the
+observed outcome from the current treatment and the covariate-specific predicted outcome based on a model of the
+historical data. Thus, the difference between the observed and predicted quantities is attributed to the current
 treatment.
 }
 \details{
-Heller, Glenn, Michael W. Kattan, and Howard I. Scher. "Improving the decision to pursue a phase 3 clinical trial 
-by adjusting for patient-specific factors in evaluating phase 2 treatment efficacy data." Medical Decision Making 
+Heller, Glenn, Michael W. Kattan, and Howard I. Scher. "Improving the decision to pursue a phase 3 clinical trial
+by adjusting for patient-specific factors in evaluating phase 2 treatment efficacy data." Medical Decision Making
 27.4 (2007): 380-386.
 }
 \examples{
-library(MASS)
+set.seed(23432)
+#simulating historic dataset and creating prediction model.
+marker=rnorm(500, sd = 2)
+respond=runif(500)<plogis(marker)
+historic.data=data.frame(respond,marker)
+model.fit=glm(data=historic.data, formula = respond ~ marker, family = binomial(logit))
+
+#simulating new data, with higher response rate
+new.data = marker=rnorm(50, sd = 2)
+respond=runif(50)<plogis(marker + 1)
+new.data=data.frame(respond,marker)
+
+#comparing outcomes in new data to those predicted in historic data
+# z-statistic = 2.412611 indicates signficant difference
+model.diff(data = new.data, model = model.fit)
+
+#comparing model based difference with binomial test
+#p-value of 0.3222 indicates we fail to reject null hypothesis
+binom.test(x=sum(new.data$respond), n=nrow(new.data), p = 0.5, alternative = c("two.sided"))
 
 }
 \author{

@@ -18,8 +18,8 @@ More points lead to a more precise estimate of the AUC.  Default is seq(from = 0
 has need for two additional arguments to specify the density function (shape1 and shape2).}
 }
 \value{
-Returns a list sensitities and specifcities at each cut point, and the AUC associated with
-the distribution.
+Returns a list sensitities and specifcities at each cut point, the expected value or
+mean risk, and the AUC associated with the distribution.
 }
 \description{
 Provided a distribution of risks in a population, this function calculates the
