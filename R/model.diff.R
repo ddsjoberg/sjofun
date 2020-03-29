@@ -38,15 +38,15 @@
 #'
 #' #comparing outcomes in new data to those predicted in historic data
 #' # z-statistic = 2.412611 indicates signficant difference
-#' model.diff(data = new.data, model = model.fit)
+#' model_diff(data = new.data, model = model.fit)
 #'
 #' #comparing model based difference with binomial test
 #' #p-value of 0.3222 indicates we fail to reject null hypothesis
 #' binom.test(x=sum(new.data$respond), n=nrow(new.data), p = 0.5, alternative = c("two.sided"))
 #'
 #' @export
-#'
-model.diff=function(data, outcome, covars, model, cov, coef, type="logistic", output.details = FALSE) {
+
+model_diff=function(data, outcome, covars, model, cov, coef, type="logistic", output.details = FALSE) {
   #initializing empty list to store results
   results=list()
 
@@ -61,9 +61,9 @@ model.diff=function(data, outcome, covars, model, cov, coef, type="logistic", ou
   #extracting covariance and coefficient if model object provided, calculating linear predictor
   if(!missing(model)){
     #extracting linear predictor
-    pr.xb=predict(model, newdata = data)
+    pr.xb=stats::predict(model, newdata = data)
     #extracting variance-covariance matrix
-    cov=vcov(model)
+    cov=stats::vcov(model)
     #extracting vector of coefficients
     coef=model$coefficients
     #extracting covaraite names
@@ -75,7 +75,7 @@ model.diff=function(data, outcome, covars, model, cov, coef, type="logistic", ou
   }
 
   #subsetting on complete data
-  data=data[complete.cases(data[,c(outcome, covars)]),]
+  data=data[stats::complete.cases(data[,c(outcome, covars)]),]
 
   #if the model object not specified, using use supplied info to calculate the XB
   if(missing(model)) pr.xb=data[,covars] %*% coef
