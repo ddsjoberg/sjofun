@@ -5,6 +5,8 @@
 
 <!-- badges: start -->
 
+[![Travis build
+status](https://travis-ci.org/ddsjoberg/sjofun.svg?branch=master)](https://travis-ci.org/ddsjoberg/sjofun)
 <!-- badges: end -->
 
 I collection of functions I’ve written to assist with my projects…
