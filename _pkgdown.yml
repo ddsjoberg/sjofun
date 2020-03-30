@@ -1,3 +1,9 @@
+url: http://www.danieldsjoberg.com/sjofun/
+
+template:
+  params:
+    bootswatch: flatly
+
 destination: docs
 
 development:

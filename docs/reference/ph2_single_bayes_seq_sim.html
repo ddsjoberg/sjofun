@@ -12,8 +12,8 @@
 <!-- jquery -->
 <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.4.1/jquery.min.js" integrity="sha256-CSXorXvZcTkaix6Yvo6HppcZGetbYMGWSFlBw8HfCJo=" crossorigin="anonymous"></script>
 <!-- Bootstrap -->
+<link href="https://cdnjs.cloudflare.com/ajax/libs/bootswatch/3.4.0/flatly/bootstrap.min.css" rel="stylesheet" crossorigin="anonymous" />
 
-<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.4.1/css/bootstrap.min.css" integrity="sha256-bZLfwXAP04zRMK2BjiO8iu9pf4FbLqX6zitd+tIvLhE=" crossorigin="anonymous" />
 
 <script src="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.4.1/js/bootstrap.min.js" integrity="sha256-nuL8/2cJ5NDSSwnKD8VqreErSWHtnEP9E7AySL+1ev4=" crossorigin="anonymous"></script>
 
@@ -40,7 +40,8 @@
 
 
 <meta property="og:title" content="Simulate results from a single arm Bayesian Phase 2 Trial — ph2_single_bayes_seq_sim" />
-<meta property="og:description" content="Trial is a Bayesian phase 2, sequential trial as outlined in
+<meta property="og:description" content="Trial is a single arm Bayesian phase 2 trial with sequential stopping boundaries
+ as outlined in
 Thall, Peter F., and Richard Simon. &quot;Practical Bayesian guidelines for phase
 IIB clinical trials.&quot; Biometrics (1994): 337-349." />
 
@@ -111,7 +112,8 @@ IIB clinical trials.&quot; Biometrics (1994): 337-349." />
     </div>
 
     <div class="ref-description">
-    <p>Trial is a Bayesian phase 2, sequential trial as outlined in
+    <p>Trial is a single arm Bayesian phase 2 trial with sequential stopping boundaries
+ as outlined in
 Thall, Peter F., and Richard Simon. "Practical Bayesian guidelines for phase
 IIB clinical trials." Biometrics (1994): 337-349.</p>
     </div>
@@ -192,6 +194,40 @@ in `omega_s_width`</p></td>
     </table>
 
 
+    <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
+    <pre class="examples"><div class='input'><span class='co'># simulate trial results</span>
+<span class='no'>sim_results</span> <span class='kw'>&lt;-</span> <span class='fu'>ph2_single_bayes_seq_sim</span>(
+  <span class='co'># setting priors for standard treatment</span>
+  <span class='kw'>omega_s_mu</span> <span class='kw'>=</span> <span class='fl'>0.2</span>, <span class='kw'>omega_s_width</span> <span class='kw'>=</span> <span class='fl'>0.20</span>, <span class='kw'>omega_s_w_conf_level</span> <span class='kw'>=</span> <span class='fl'>0.90</span>,
+  <span class='co'># setting priors for experimental treatment</span>
+  <span class='kw'>omega_e_c</span> <span class='kw'>=</span> <span class='fl'>2</span>, <span class='kw'>delta_0</span> <span class='kw'>=</span> <span class='fl'>0.15</span>,
+  <span class='co'># other trial parameters</span>
+  <span class='kw'>n_min</span> <span class='kw'>=</span> <span class='fl'>10</span>, <span class='kw'>n_max</span> <span class='kw'>=</span> <span class='fl'>65</span>,
+  <span class='kw'>pr_low</span> <span class='kw'>=</span> <span class='fl'>0.05</span>, <span class='kw'>pr_high</span> <span class='kw'>=</span> <span class='fl'>0.95</span>,
+  <span class='co'># true effect of experimental tx</span>
+  <span class='kw'>mu_e</span> <span class='kw'>=</span> <span class='fl'>0.35</span>,
+  <span class='co'># number of simulations</span>
+  <span class='kw'>sim_n</span> <span class='kw'>=</span> <span class='fl'>1000</span>
+)
+
+<span class='co'># tabulate summary</span>
+<span class='fu'><a href='https://rdrr.io/r/base/library.html'>library</a></span>(<span class='no'>gtsummary</span>)
+<span class='no'>sim_results</span> <span class='kw'>%&gt;%</span>
+  <span class='kw pkg'>dplyr</span><span class='kw ns'>::</span><span class='fu'><a href='https://dplyr.tidyverse.org/reference/select.html'>select</a></span>(-<span class='no'>sim_id</span>) <span class='kw'>%&gt;%</span>
+  <span class='fu'><a href='http://www.danieldsjoberg.com/gtsummary//reference/tbl_summary.html'>tbl_summary</a></span>(
+    <span class='kw'>label</span> <span class='kw'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/list.html'>list</a></span>(<span class='no'>result</span> ~ <span class='st'>"Trial Result"</span>,
+                 <span class='no'>n_enrolled</span> ~ <span class='st'>"No. Enrolled in Trial"</span>)
+  ) <span class='kw'>%&gt;%</span>
+  <span class='fu'><a href='http://www.danieldsjoberg.com/gtsummary//reference/add_stat_label.html'>add_stat_label</a></span>() <span class='kw'>%&gt;%</span>
+  <span class='fu'><a href='http://www.danieldsjoberg.com/gtsummary//reference/as_kable.html'>as_kable</a></span>()</div><div class='output co'>#&gt; 
+#&gt; 
+#&gt; |**Characteristic**    |**Statistic** |**N = 1000** |
+#&gt; |:---------------------|:-------------|:------------|
+#&gt; |Trial Result          |              |             |
+#&gt; |futile                |n (%)         |158 (16%)    |
+#&gt; |inconclusive          |n (%)         |759 (76%)    |
+#&gt; |success               |n (%)         |83 (8.3%)    |
+#&gt; |No. Enrolled in Trial |median (IQR)  |65 (65, 65)  |</div></pre>
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="pkgdown-sidebar">
     <nav id="toc" data-toggle="toc" class="sticky-top">
@@ -203,7 +239,7 @@ in `omega_s_width`</p></td>
 
       <footer>
       <div class="copyright">
-  <p>Developed by The package maintainer.</p>
+  <p>Developed by Daniel D. Sjoberg.</p>
 </div>
 
 <div class="pkgdown">

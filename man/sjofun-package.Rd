@@ -4,9 +4,8 @@
 \name{sjofun-package}
 \alias{sjofun}
 \alias{sjofun-package}
-\title{sjofun: What the Package Does (Title Case)}
+\title{sjofun: Misc package for Daniel Sjoberg}
 \description{
-More about what it does (maybe more than one line)
-    Use four spaces when indenting paragraphs within the Description.
+Misc package for Daniel Sjoberg
 }
 \keyword{internal}

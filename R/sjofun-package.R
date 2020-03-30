@@ -1,4 +1,4 @@
-#' @importFrom dplyr %>% mutate mutate_at select full_join left_join case_when
+#' @importFrom dplyr mutate mutate_at select full_join left_join case_when
 #' filter arrange desc slice everything group_by ungroup pull
 #' @importFrom tibble tibble as_tibble
 #' @importFrom purrr map map2 map_dbl map_dfr map2_dbl imap

@@ -1,6 +1,7 @@
 #' Simulate results from a single arm Bayesian Phase 2 Trial
 #'
-#' Trial is a Bayesian phase 2, sequential trial as outlined in
+#' Trial is a single arm Bayesian phase 2 trial with sequential stopping boundaries
+#'  as outlined in
 #' Thall, Peter F., and Richard Simon. "Practical Bayesian guidelines for phase
 #' IIB clinical trials." Biometrics (1994): 337-349.
 #'
@@ -20,6 +21,33 @@
 #' @param verbose When TRUE, additional information is returned as an attribute
 #' @param quiet Run with no notes, progress bars, etc.
 #' @export
+#'
+#' @examples
+#' # simulate trial results
+#' sim_results <- ph2_single_bayes_seq_sim(
+#'   # setting priors for standard treatment
+#'   omega_s_mu = 0.2, omega_s_width = 0.20, omega_s_w_conf_level = 0.90,
+#'   # setting priors for experimental treatment
+#'   omega_e_c = 2, delta_0 = 0.15,
+#'   # other trial parameters
+#'   n_min = 10, n_max = 65,
+#'   pr_low = 0.05, pr_high = 0.95,
+#'   # true effect of experimental tx
+#'   mu_e = 0.35,
+#'   # number of simulations
+#'   sim_n = 1000
+#' )
+#'
+#' # tabulate summary
+#' library(gtsummary)
+#' sim_results %>%
+#'   dplyr::select(-sim_id) %>%
+#'   tbl_summary(
+#'     label = list(result ~ "Trial Result",
+#'                  n_enrolled ~ "No. Enrolled in Trial")
+#'   ) %>%
+#'   add_stat_label() %>%
+#'   as_kable()
 
 ph2_single_bayes_seq_sim <- function(omega_s_mu, omega_s_width,
                                      omega_s_w_conf_level = 0.90,
@@ -144,15 +172,17 @@ smry_trial_result <- function(n_min, n_max, mu_e,
 lambda_fun <- function(n, x, # number of obs = n, x = successes
                        delta_0, prior_omega_s, prior_omega_e) {
   inside_fun <- function(p) {
-    cdf_portion <- stats::pbeta(p + delta_0,
-                                shape1 = prior_omega_e$shape1 + x,
-                                shape2 = prior_omega_e$shape2 + n - x)
+    experimental_tx_portion <-
+      1 - stats::pbeta(p + delta_0,
+                       shape1 = prior_omega_e$shape1 + x,
+                       shape2 = prior_omega_e$shape2 + n - x)
 
-    pdf_portion <- stats::dbeta(p,
-                                shape1 = prior_omega_s$shape1,
-                                shape2 = prior_omega_s$shape2)
+    standard_tx_portion <-
+      stats::dbeta(p,
+                   shape1 = prior_omega_s$shape1,
+                   shape2 = prior_omega_s$shape2)
 
-    (1 - cdf_portion) * pdf_portion
+    experimental_tx_portion * standard_tx_portion
   }
 
   stats::integrate(inside_fun, lower = 0, upper = 1 - delta_0)$value
