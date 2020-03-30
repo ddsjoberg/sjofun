@@ -23,8 +23,8 @@ ph2_single_bayes_seq_sim(
 \arguments{
 \item{omega_s_mu}{Mean of prior distribution on omega_s}
 
-\item{omega_s_width}{Width of the probability interval (set by `w_conf_level=`)
-running from the `(1 + w_conf_level) / 2` to the `(1 - w_conf_level) / 2` percentiles}
+\item{omega_s_width}{Width of the probability interval (set by \verb{w_conf_level=})
+running from the \code{(1 + w_conf_level) / 2} to the \code{(1 - w_conf_level) / 2} percentiles}
 
 \item{omega_s_w_conf_level}{Confidence level of width of probabilty specified}
 
@@ -43,7 +43,7 @@ running from the `(1 + w_conf_level) / 2` to the `(1 - w_conf_level) / 2` percen
 \item{pr_high}{Upper probablity limit for concluding treatment promising}
 
 \item{mu_e}{True rate of success with experimental treatment
-in `omega_s_width`}
+in \code{omega_s_width}}
 
 \item{verbose}{When TRUE, additional information is returned as an attribute}
 
@@ -51,7 +51,7 @@ in `omega_s_width`}
 }
 \description{
 Trial is a single arm Bayesian phase 2 trial with sequential stopping boundaries
- as outlined in
+as outlined in
 Thall, Peter F., and Richard Simon. "Practical Bayesian guidelines for phase
 IIB clinical trials." Biometrics (1994): 337-349.
 }

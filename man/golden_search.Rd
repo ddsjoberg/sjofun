@@ -13,7 +13,7 @@ golden_search(x, a, b, tol = 1e-04)
 
 \item{b}{max value of search values}
 
-\item{tol}{tolerance level. Default is `1e-04`}
+\item{tol}{tolerance level. Default is \code{1e-04}}
 }
 \description{
 Find the minimum of a function using the Golded-section search algorithm

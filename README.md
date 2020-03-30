@@ -7,6 +7,8 @@
 
 [![Travis build
 status](https://travis-ci.com/ddsjoberg/sjofun.svg?branch=master)](https://travis-ci.com/ddsjoberg/sjofun)
+[![Codecov test
+coverage](https://codecov.io/gh/ddsjoberg/sjofun/branch/master/graph/badge.svg)](https://codecov.io/gh/ddsjoberg/sjofun?branch=master)
 <!-- badges: end -->
 
 I collection of functions I’ve written to assist with my projects…

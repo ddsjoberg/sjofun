@@ -3,7 +3,7 @@ Package: sjofun
 Title: Misc package for Daniel Sjoberg
 Version: 0.1.0
 Author: Daniel D. Sjoberg
-Maintainer: Daniel D. Sjoberg
+Maintainer: Daniel D. Sjoberg <danieldsjoberg@gmail.com>
 Description: Misc package for Daniel Sjoberg
 License: MIT + file LICENSE
 Imports: 
@@ -13,7 +13,10 @@ Imports:
     tibble,
     tidyr
 Suggests: 
-    gtsummary
+    gtsummary,
+    covr
 Encoding: UTF-8
+Language: en-US
 LazyData: true
+Roxygen: list(markdown = TRUE)
 RoxygenNote: 7.1.0
