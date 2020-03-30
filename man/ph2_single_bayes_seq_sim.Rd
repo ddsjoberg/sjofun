@@ -16,7 +16,8 @@ ph2_single_bayes_seq_sim(
   pr_low = 0.05,
   pr_high = 0.95,
   mu_e = omega_s_mu + delta_0,
-  verbose = FALSE
+  verbose = FALSE,
+  quiet = FALSE
 )
 }
 \arguments{
@@ -45,6 +46,8 @@ running from the `w_conf_level / 2` to the `1 - w_conf_level / 2` percentiles}
 in `omega_s_width`}
 
 \item{verbose}{When TRUE, additional information is returned as an attribute}
+
+\item{quiet}{Run with no notes, progress bars, etc.}
 }
 \description{
 Trial is a Bayesian phase 2, sequential trial as outlined in

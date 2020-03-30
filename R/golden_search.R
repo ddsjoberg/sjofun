@@ -7,9 +7,7 @@
 #' @param b max value of search values
 #' @param tol tolerance level. Default is `1e-04`
 #'
-#' @return
 #' @export
-#'
 #' @examples
 #' contfunc = function(x){
 #'   -exp(-x) * sin(x)

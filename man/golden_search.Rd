@@ -4,19 +4,16 @@
 \alias{golden_search}
 \title{One-diminsional Search Algorithm}
 \usage{
-golden_search(func, a, b, tol = 1e-04)
+golden_search(x, a, b, tol = 1e-04)
 }
 \arguments{
-\item{func}{function with one argument}
+\item{x}{function with one argument}
 
 \item{a}{min value of search values}
 
 \item{b}{max value of search values}
 
 \item{tol}{tolerance level. Default is `1e-04`}
-}
-\value{
-
 }
 \description{
 Find the minimum of a function using the Golded-section search algorithm
