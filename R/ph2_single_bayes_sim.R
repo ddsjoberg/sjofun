@@ -7,7 +7,7 @@
 #' @param sim_n Number of simulated trials to create
 #' @param omega_s_mu Mean of prior distribution on omega_s
 #' @param omega_s_width Width of the probability interval (set by `w_conf_level=`)
-#' running from the `w_conf_level / 2` to the `1 - w_conf_level / 2` percentiles
+#' running from the `(1 + w_conf_level) / 2` to the `(1 - w_conf_level) / 2` percentiles
 #' @param omega_e_c Concentration parameter for prior distribution on omega_e
 #' @param delta_0 Targeted improvement of treatment for treatment E over S
 #' @param n_min Minimum number of patients that may be enrolled

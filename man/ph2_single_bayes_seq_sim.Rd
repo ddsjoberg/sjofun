@@ -24,7 +24,7 @@ ph2_single_bayes_seq_sim(
 \item{omega_s_mu}{Mean of prior distribution on omega_s}
 
 \item{omega_s_width}{Width of the probability interval (set by `w_conf_level=`)
-running from the `w_conf_level / 2` to the `1 - w_conf_level / 2` percentiles}
+running from the `(1 + w_conf_level) / 2` to the `(1 - w_conf_level) / 2` percentiles}
 
 \item{omega_s_w_conf_level}{Confidence level of width of probabilty specified}
 
