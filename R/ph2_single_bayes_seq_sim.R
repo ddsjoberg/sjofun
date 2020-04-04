@@ -6,18 +6,18 @@
 #' IIB clinical trials." Biometrics (1994): 337-349.
 #'
 #' @param sim_n Number of simulated trials to create
-#' @param omega_s_mu Mean of prior distribution on omega_s
-#' @param omega_s_width Width of the probability interval (set by `w_conf_level=`)
+#' @param theta_s_mu Mean of prior distribution on theta_s
+#' @param theta_s_width Width of the probability interval (set by `w_conf_level=`)
 #' running from the `(1 + w_conf_level) / 2` to the `(1 - w_conf_level) / 2` percentiles
-#' @param omega_e_c Concentration parameter for prior distribution on omega_e
+#' @param theta_e_c Concentration parameter for prior distribution on theta_e
 #' @param delta_0 Targeted improvement of treatment for treatment E over S
 #' @param n_min Minimum number of patients that may be enrolled
 #' @param n_max Maximum number of patients that may be enrolled
 #' @param pr_low Lower probability limit for concluding treatment not promising
 #' @param pr_high Upper probablity limit for concluding treatment promising
-#' @param omega_s_w_conf_level Confidence level of width of probabilty specified
+#' @param theta_s_w_conf_level Confidence level of width of probabilty specified
 #' @param mu_e True rate of success with experimental treatment
-#' in `omega_s_width`
+#' in `theta_s_width`
 #' @param verbose When TRUE, additional information is returned as an attribute
 #' @param quiet Run with no notes, progress bars, etc.
 #' @export
@@ -26,9 +26,9 @@
 #' # simulate trial results
 #' sim_results <- ph2_single_bayes_seq_sim(
 #'   # setting priors for standard treatment
-#'   omega_s_mu = 0.2, omega_s_width = 0.20, omega_s_w_conf_level = 0.90,
+#'   theta_s_mu = 0.2, theta_s_width = 0.20, theta_s_w_conf_level = 0.90,
 #'   # setting priors for experimental treatment
-#'   omega_e_c = 2, delta_0 = 0.15,
+#'   theta_e_c = 2, delta_0 = 0.15,
 #'   # other trial parameters
 #'   n_min = 10, n_max = 65,
 #'   pr_low = 0.05, pr_high = 0.95,
@@ -49,24 +49,24 @@
 #'   add_stat_label() %>%
 #'   as_kable()
 
-ph2_single_bayes_seq_sim <- function(omega_s_mu, omega_s_width,
-                                     omega_s_w_conf_level = 0.90,
-                                     omega_e_c, delta_0, n_min, n_max,
+ph2_single_bayes_seq_sim <- function(theta_s_mu, theta_s_width,
+                                     theta_s_w_conf_level = 0.90,
+                                     theta_e_c, delta_0, n_min, n_max,
                                      sim_n = 1, pr_low = 0.05, pr_high = 0.95,
-                                     mu_e = omega_s_mu + delta_0,
+                                     mu_e = theta_s_mu + delta_0,
                                      verbose = FALSE, quiet = FALSE) {
   # input checks ---------------------------------------------------------------
 
   # prior distributions --------------------------------------------------------
   # getting parameters for prior distribution of standard treatment
-  prior_omega_s <-
-    cnvrt_w_to_beta_param(mu = omega_s_mu, w = omega_s_width,
-                          w_conf_level = omega_s_w_conf_level)
+  prior_theta_s <-
+    cnvrt_w_to_beta_param(mu = theta_s_mu, w = theta_s_width,
+                          w_conf_level = theta_s_w_conf_level)
 
   # getting parameters for prior distribution of experimental treatment
-  prior_omega_e <- list(
-    shape1 = omega_e_c * (omega_s_mu + delta_0 / 2),
-    shape2 = omega_e_c * (1 - (omega_s_mu + delta_0 / 2) )
+  prior_theta_e <- list(
+    shape1 = theta_e_c * (theta_s_mu + delta_0 / 2),
+    shape2 = theta_e_c * (1 - (theta_s_mu + delta_0 / 2) )
   )
 
   # simulating trial results ---------------------------------------------------
@@ -78,8 +78,8 @@ ph2_single_bayes_seq_sim <- function(omega_s_mu, omega_s_width,
         if (quiet == FALSE) pb$tick()$print()
         smry_trial_result(n_min = n_min, n_max = n_max, mu_e = mu_e,
                         delta_0 = delta_0,
-                        prior_omega_s = prior_omega_s,
-                        prior_omega_e = prior_omega_e,
+                        prior_theta_s = prior_theta_s,
+                        prior_theta_e = prior_theta_e,
                         pr_low = pr_low, pr_high = pr_high) %>%
         as_tibble() %>%
         mutate(sim_id = .x) %>%
@@ -89,8 +89,8 @@ ph2_single_bayes_seq_sim <- function(omega_s_mu, omega_s_width,
 
   # including additional results if requested
   if (verbose == TRUE) {
-    attr(result, "prior_omega_s") <- prior_omega_s
-    attr(result, "prior_omega_e") <- prior_omega_e
+    attr(result, "prior_theta_s") <- prior_theta_s
+    attr(result, "prior_theta_e") <- prior_theta_e
   }
 
   result
@@ -104,8 +104,8 @@ ph2_single_bayes_seq_sim <- function(omega_s_mu, omega_s_width,
 # helper function to summarize trial results
 smry_trial_result <- function(n_min, n_max, mu_e,
                               delta_0,
-                              prior_omega_s,
-                              prior_omega_e,
+                              prior_theta_s,
+                              prior_theta_e,
                               pr_low, pr_high) {
 
 
@@ -120,7 +120,7 @@ smry_trial_result <- function(n_min, n_max, mu_e,
     mutate(
       lambda_prob = map2_dbl(
         .data$id, .data$cum_sucess,
-        ~lambda_fun(n = .x, x = .y, delta_0, prior_omega_s, prior_omega_e)
+        ~lambda_fun(n = .x, x = .y, delta_0, prior_theta_s, prior_theta_e)
       ),
       stop_futility = .data$lambda_prob <= .env$pr_low,
       stop_success = .data$lambda_prob >= .env$pr_high
@@ -170,17 +170,17 @@ smry_trial_result <- function(n_min, n_max, mu_e,
 
 # this is the lambda function from the paper that defines probs of success, futility
 lambda_fun <- function(n, x, # number of obs = n, x = successes
-                       delta_0, prior_omega_s, prior_omega_e) {
+                       delta_0, prior_theta_s, prior_theta_e) {
   inside_fun <- function(p) {
     experimental_tx_portion <-
       1 - stats::pbeta(p + delta_0,
-                       shape1 = prior_omega_e$shape1 + x,
-                       shape2 = prior_omega_e$shape2 + n - x)
+                       shape1 = prior_theta_e$shape1 + x,
+                       shape2 = prior_theta_e$shape2 + n - x)
 
     standard_tx_portion <-
       stats::dbeta(p,
-                   shape1 = prior_omega_s$shape1,
-                   shape2 = prior_omega_s$shape2)
+                   shape1 = prior_theta_s$shape1,
+                   shape2 = prior_theta_s$shape2)
 
     experimental_tx_portion * standard_tx_portion
   }

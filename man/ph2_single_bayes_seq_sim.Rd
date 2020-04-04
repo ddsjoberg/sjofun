@@ -5,30 +5,30 @@
 \title{Simulate results from a single arm Bayesian Phase 2 Trial}
 \usage{
 ph2_single_bayes_seq_sim(
-  omega_s_mu,
-  omega_s_width,
-  omega_s_w_conf_level = 0.9,
-  omega_e_c,
+  theta_s_mu,
+  theta_s_width,
+  theta_s_w_conf_level = 0.9,
+  theta_e_c,
   delta_0,
   n_min,
   n_max,
   sim_n = 1,
   pr_low = 0.05,
   pr_high = 0.95,
-  mu_e = omega_s_mu + delta_0,
+  mu_e = theta_s_mu + delta_0,
   verbose = FALSE,
   quiet = FALSE
 )
 }
 \arguments{
-\item{omega_s_mu}{Mean of prior distribution on omega_s}
+\item{theta_s_mu}{Mean of prior distribution on theta_s}
 
-\item{omega_s_width}{Width of the probability interval (set by \verb{w_conf_level=})
+\item{theta_s_width}{Width of the probability interval (set by \verb{w_conf_level=})
 running from the \code{(1 + w_conf_level) / 2} to the \code{(1 - w_conf_level) / 2} percentiles}
 
-\item{omega_s_w_conf_level}{Confidence level of width of probabilty specified}
+\item{theta_s_w_conf_level}{Confidence level of width of probabilty specified}
 
-\item{omega_e_c}{Concentration parameter for prior distribution on omega_e}
+\item{theta_e_c}{Concentration parameter for prior distribution on theta_e}
 
 \item{delta_0}{Targeted improvement of treatment for treatment E over S}
 
@@ -43,7 +43,7 @@ running from the \code{(1 + w_conf_level) / 2} to the \code{(1 - w_conf_level) /
 \item{pr_high}{Upper probablity limit for concluding treatment promising}
 
 \item{mu_e}{True rate of success with experimental treatment
-in \code{omega_s_width}}
+in \code{theta_s_width}}
 
 \item{verbose}{When TRUE, additional information is returned as an attribute}
 
@@ -59,9 +59,9 @@ IIB clinical trials." Biometrics (1994): 337-349.
 # simulate trial results
 sim_results <- ph2_single_bayes_seq_sim(
   # setting priors for standard treatment
-  omega_s_mu = 0.2, omega_s_width = 0.20, omega_s_w_conf_level = 0.90,
+  theta_s_mu = 0.2, theta_s_width = 0.20, theta_s_w_conf_level = 0.90,
   # setting priors for experimental treatment
-  omega_e_c = 2, delta_0 = 0.15,
+  theta_e_c = 2, delta_0 = 0.15,
   # other trial parameters
   n_min = 10, n_max = 65,
   pr_low = 0.05, pr_high = 0.95,

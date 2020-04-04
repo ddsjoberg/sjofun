@@ -16,8 +16,8 @@ knitr::opts_chunk$set(
 # sjofun
 
 <!-- badges: start -->
-[![Travis build status](https://travis-ci.com/ddsjoberg/sjofun.svg?branch=master)](https://travis-ci.com/ddsjoberg/sjofun)
 [![Codecov test coverage](https://codecov.io/gh/ddsjoberg/sjofun/branch/master/graph/badge.svg)](https://codecov.io/gh/ddsjoberg/sjofun?branch=master)
+[![R build status](https://github.com/ddsjoberg/sjofun/workflows/R-CMD-check/badge.svg)](https://github.com/ddsjoberg/sjofun/actions)
 <!-- badges: end -->
 
 I collection of functions I've written to assist with my projects...
