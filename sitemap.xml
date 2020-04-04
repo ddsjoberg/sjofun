@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
+  <url>
+    <loc>http://www.danieldsjoberg.com/sjofun//index.html</loc>
+  </url>
+  <url>
+    <loc>http://www.danieldsjoberg.com/sjofun//reference/golden_search.html</loc>
+  </url>
+  <url>
+    <loc>http://www.danieldsjoberg.com/sjofun//reference/model_diff.html</loc>
+  </url>
+  <url>
+    <loc>http://www.danieldsjoberg.com/sjofun//reference/ph2_single_bayes_seq_sim.html</loc>
+  </url>
+  <url>
+    <loc>http://www.danieldsjoberg.com/sjofun//reference/reexports.html</loc>
+  </url>
+  <url>
+    <loc>http://www.danieldsjoberg.com/sjofun//reference/sjofun-package.html</loc>
+  </url>
+</urlset>
