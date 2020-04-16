@@ -118,12 +118,20 @@ smry_trial_result <- function(n_min, n_max, mu_e,
     # decisions only made after n_min enrolled
     filter(.data$id >= n_min) %>%
     mutate(
-      lambda_prob = map2_dbl(
+      lambda_prob_u = map2_dbl(
         .data$id, .data$cum_sucess,
-        ~lambda_fun(n = .x, x = .y, delta_0, prior_theta_s, prior_theta_e)
+        ~lambda_fun(n = .x, x = .y, delta_0 = 0,
+                    prior_theta_s = prior_theta_s,
+                    prior_theta_e = prior_theta_e)
       ),
-      stop_futility = .data$lambda_prob <= .env$pr_low,
-      stop_success = .data$lambda_prob >= .env$pr_high
+      lambda_prob_l = map2_dbl(
+        .data$id, .data$cum_sucess,
+        ~lambda_fun(n = .x, x = .y, delta_0 = delta_0,
+                    prior_theta_s = prior_theta_s,
+                    prior_theta_e = prior_theta_e)
+      ),
+      stop_futility = .data$lambda_prob_l <= .env$pr_low,
+      stop_success = .data$lambda_prob_u >= .env$pr_high
     )
 
 
