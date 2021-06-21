@@ -48,6 +48,8 @@ IIB clinical trials.&quot; Biometrics (1994): 337-349." />
 
 
 
+
+
 <!-- mathjax -->
 <script src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.5/MathJax.js" integrity="sha256-nvJJv9wWKEm88qvoQl9ekL2J+k/RWIsaSScxxlsrv8k=" crossorigin="anonymous"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.5/config/TeX-AMS-MML_HTMLorMML.js" integrity="sha256-84DKXVJXs0/F8OTMzX4UR909+jtl4G7SPypPavF+GfA=" crossorigin="anonymous"></script>
@@ -59,9 +61,15 @@ IIB clinical trials.&quot; Biometrics (1994): 337-349." />
 
 
 
+  
+
+  
+
   </head>
 
   <body data-spy="scroll" data-target="#toc">
+    
+
     <div class="container template-reference-topic">
       <header>
       <div class="navbar navbar-default navbar-fixed-top" role="navigation">
@@ -82,12 +90,6 @@ IIB clinical trials.&quot; Biometrics (1994): 337-349." />
     <div id="navbar" class="navbar-collapse collapse">
       <ul class="nav navbar-nav">
         <li>
-  <a href="../index.html">
-    <span class="fas fa fas fa-home fa-lg"></span>
-     
-  </a>
-</li>
-<li>
   <a href="../reference/index.html">Reference</a>
 </li>
 <li>
@@ -126,21 +128,21 @@ Thall, Peter F., and Richard Simon. "Practical Bayesian guidelines for phase
 IIB clinical trials." Biometrics (1994): 337-349.</p>
     </div>
 
-    <pre class="usage"><span class='fu'>ph2_single_bayes_seq_sim</span>(
-  <span class='no'>theta_s_mu</span>,
-  <span class='no'>theta_s_width</span>,
-  <span class='kw'>theta_s_w_conf_level</span> <span class='kw'>=</span> <span class='fl'>0.9</span>,
-  <span class='no'>theta_e_c</span>,
-  <span class='no'>delta_0</span>,
-  <span class='no'>n_min</span>,
-  <span class='no'>n_max</span>,
-  <span class='kw'>sim_n</span> <span class='kw'>=</span> <span class='fl'>1</span>,
-  <span class='kw'>pr_low</span> <span class='kw'>=</span> <span class='fl'>0.05</span>,
-  <span class='kw'>pr_high</span> <span class='kw'>=</span> <span class='fl'>0.95</span>,
-  <span class='kw'>mu_e</span> <span class='kw'>=</span> <span class='no'>theta_s_mu</span> + <span class='no'>delta_0</span>,
-  <span class='kw'>verbose</span> <span class='kw'>=</span> <span class='fl'>FALSE</span>,
-  <span class='kw'>quiet</span> <span class='kw'>=</span> <span class='fl'>FALSE</span>
-)</pre>
+    <div class="ref-usage sourceCode"><pre class='sourceCode r'><code><span class='fu'>ph2_single_bayes_seq_sim</span><span class='op'>(</span>
+  <span class='va'>theta_s_mu</span>,
+  <span class='va'>theta_s_width</span>,
+  theta_s_w_conf_level <span class='op'>=</span> <span class='fl'>0.9</span>,
+  <span class='va'>theta_e_c</span>,
+  <span class='va'>delta_0</span>,
+  <span class='va'>n_min</span>,
+  <span class='va'>n_max</span>,
+  sim_n <span class='op'>=</span> <span class='fl'>1</span>,
+  pr_low <span class='op'>=</span> <span class='fl'>0.05</span>,
+  pr_high <span class='op'>=</span> <span class='fl'>0.95</span>,
+  mu_e <span class='op'>=</span> <span class='va'>theta_s_mu</span> <span class='op'>+</span> <span class='va'>delta_0</span>,
+  verbose <span class='op'>=</span> <span class='cn'>FALSE</span>,
+  quiet <span class='op'>=</span> <span class='cn'>FALSE</span>
+<span class='op'>)</span></code></pre></div>
 
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
     <table class="ref-arguments">
@@ -203,39 +205,42 @@ in <code>theta_s_width</code></p></td>
 
 
     <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
-    <pre class="examples"><div class='input'><span class='co'># simulate trial results</span>
-<span class='no'>sim_results</span> <span class='kw'>&lt;-</span> <span class='fu'>ph2_single_bayes_seq_sim</span>(
-  <span class='co'># setting priors for standard treatment</span>
-  <span class='kw'>theta_s_mu</span> <span class='kw'>=</span> <span class='fl'>0.2</span>, <span class='kw'>theta_s_width</span> <span class='kw'>=</span> <span class='fl'>0.20</span>, <span class='kw'>theta_s_w_conf_level</span> <span class='kw'>=</span> <span class='fl'>0.90</span>,
-  <span class='co'># setting priors for experimental treatment</span>
-  <span class='kw'>theta_e_c</span> <span class='kw'>=</span> <span class='fl'>2</span>, <span class='kw'>delta_0</span> <span class='kw'>=</span> <span class='fl'>0.15</span>,
-  <span class='co'># other trial parameters</span>
-  <span class='kw'>n_min</span> <span class='kw'>=</span> <span class='fl'>10</span>, <span class='kw'>n_max</span> <span class='kw'>=</span> <span class='fl'>65</span>,
-  <span class='kw'>pr_low</span> <span class='kw'>=</span> <span class='fl'>0.05</span>, <span class='kw'>pr_high</span> <span class='kw'>=</span> <span class='fl'>0.95</span>,
-  <span class='co'># true effect of experimental tx</span>
-  <span class='kw'>mu_e</span> <span class='kw'>=</span> <span class='fl'>0.35</span>,
-  <span class='co'># number of simulations</span>
-  <span class='kw'>sim_n</span> <span class='kw'>=</span> <span class='fl'>1000</span>
-)
-
-<span class='co'># tabulate summary</span>
-<span class='fu'><a href='https://rdrr.io/r/base/library.html'>library</a></span>(<span class='no'>gtsummary</span>)
-<span class='no'>sim_results</span> <span class='kw'>%&gt;%</span>
-  <span class='kw pkg'>dplyr</span><span class='kw ns'>::</span><span class='fu'><a href='https://dplyr.tidyverse.org/reference/select.html'>select</a></span>(-<span class='no'>sim_id</span>) <span class='kw'>%&gt;%</span>
-  <span class='fu'><a href='http://www.danieldsjoberg.com/gtsummary//reference/tbl_summary.html'>tbl_summary</a></span>(
-    <span class='kw'>label</span> <span class='kw'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/list.html'>list</a></span>(<span class='no'>result</span> ~ <span class='st'>"Trial Result"</span>,
-                 <span class='no'>n_enrolled</span> ~ <span class='st'>"No. Enrolled in Trial"</span>)
-  ) <span class='kw'>%&gt;%</span>
-  <span class='fu'><a href='http://www.danieldsjoberg.com/gtsummary//reference/add_stat_label.html'>add_stat_label</a></span>() <span class='kw'>%&gt;%</span>
-  <span class='fu'><a href='http://www.danieldsjoberg.com/gtsummary//reference/as_kable.html'>as_kable</a></span>()</div><div class='output co'>#&gt; 
-#&gt; 
-#&gt; |**Characteristic**    |**Statistic** |**N = 1000** |
-#&gt; |:---------------------|:-------------|:------------|
-#&gt; |Trial Result          |              |             |
-#&gt; |futile                |n (%)         |156 (16%)    |
-#&gt; |inconclusive          |n (%)         |132 (13%)    |
-#&gt; |success               |n (%)         |712 (71%)    |
-#&gt; |No. Enrolled in Trial |median (IQR)  |16 (10, 37)  |</div></pre>
+    <div class="ref-examples sourceCode"><pre class='sourceCode r'><code><span class='r-in'><span class='co'># simulate trial results</span></span>
+<span class='r-in'><span class='va'>sim_results</span> <span class='op'>&lt;-</span> <span class='fu'>ph2_single_bayes_seq_sim</span><span class='op'>(</span></span>
+<span class='r-in'>  <span class='co'># setting priors for standard treatment</span></span>
+<span class='r-in'>  theta_s_mu <span class='op'>=</span> <span class='fl'>0.2</span>, theta_s_width <span class='op'>=</span> <span class='fl'>0.20</span>, theta_s_w_conf_level <span class='op'>=</span> <span class='fl'>0.90</span>,</span>
+<span class='r-in'>  <span class='co'># setting priors for experimental treatment</span></span>
+<span class='r-in'>  theta_e_c <span class='op'>=</span> <span class='fl'>2</span>, delta_0 <span class='op'>=</span> <span class='fl'>0.15</span>,</span>
+<span class='r-in'>  <span class='co'># other trial parameters</span></span>
+<span class='r-in'>  n_min <span class='op'>=</span> <span class='fl'>10</span>, n_max <span class='op'>=</span> <span class='fl'>65</span>,</span>
+<span class='r-in'>  pr_low <span class='op'>=</span> <span class='fl'>0.05</span>, pr_high <span class='op'>=</span> <span class='fl'>0.95</span>,</span>
+<span class='r-in'>  <span class='co'># true effect of experimental tx</span></span>
+<span class='r-in'>  mu_e <span class='op'>=</span> <span class='fl'>0.35</span>,</span>
+<span class='r-in'>  <span class='co'># number of simulations</span></span>
+<span class='r-in'>  sim_n <span class='op'>=</span> <span class='fl'>1000</span></span>
+<span class='r-in'><span class='op'>)</span></span>
+<span class='r-in'></span>
+<span class='r-in'><span class='co'># tabulate summary</span></span>
+<span class='r-in'><span class='kw'><a href='https://rdrr.io/r/base/library.html'>library</a></span><span class='op'>(</span><span class='va'><a href='https://github.com/ddsjoberg/gtsummary'>gtsummary</a></span><span class='op'>)</span></span>
+<span class='r-msg co'><span class='r-pr'>#&gt;</span> #BlackLivesMatter</span>
+<span class='r-in'><span class='va'>sim_results</span> <span class='op'><a href='https://magrittr.tidyverse.org/reference/pipe.html'>%&gt;%</a></span></span>
+<span class='r-in'>  <span class='fu'>dplyr</span><span class='fu'>::</span><span class='fu'><a href='https://dplyr.tidyverse.org/reference/select.html'>select</a></span><span class='op'>(</span><span class='op'>-</span><span class='va'>sim_id</span><span class='op'>)</span> <span class='op'><a href='https://magrittr.tidyverse.org/reference/pipe.html'>%&gt;%</a></span></span>
+<span class='r-in'>  <span class='fu'><a href='http://www.danieldsjoberg.com/gtsummary//reference/tbl_summary.html'>tbl_summary</a></span><span class='op'>(</span></span>
+<span class='r-in'>    label <span class='op'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/list.html'>list</a></span><span class='op'>(</span><span class='va'>result</span> <span class='op'>~</span> <span class='st'>"Trial Result"</span>,</span>
+<span class='r-in'>                 <span class='va'>n_enrolled</span> <span class='op'>~</span> <span class='st'>"No. Enrolled in Trial"</span><span class='op'>)</span></span>
+<span class='r-in'>  <span class='op'>)</span> <span class='op'><a href='https://magrittr.tidyverse.org/reference/pipe.html'>%&gt;%</a></span></span>
+<span class='r-in'>  <span class='fu'><a href='http://www.danieldsjoberg.com/gtsummary//reference/add_stat_label.html'>add_stat_label</a></span><span class='op'>(</span><span class='op'>)</span> <span class='op'><a href='https://magrittr.tidyverse.org/reference/pipe.html'>%&gt;%</a></span></span>
+<span class='r-in'>  <span class='fu'><a href='http://www.danieldsjoberg.com/gtsummary//reference/as_kable.html'>as_kable</a></span><span class='op'>(</span><span class='op'>)</span></span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> </span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> </span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> |**Characteristic**                  |**N = 1,000** |</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> |:-----------------------------------|:-------------|</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> |Trial Result, n (%)                 |              |</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> |futile                              |156 (16%)     |</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> |inconclusive                        |132 (13%)     |</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> |success                             |712 (71%)     |</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> |No. Enrolled in Trial, Median (IQR) |16 (10, 37)   |</span>
+</code></pre></div>
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="pkgdown-sidebar">
     <nav id="toc" data-toggle="toc" class="sticky-top">
@@ -247,11 +252,11 @@ in <code>theta_s_width</code></p></td>
 
       <footer>
       <div class="copyright">
-  <p>Developed by Daniel D. Sjoberg.</p>
+  <p><p>Developed by Daniel D. Sjoberg.</p></p>
 </div>
 
 <div class="pkgdown">
-  <p>Site built with <a href="https://pkgdown.r-lib.org/">pkgdown</a> 1.5.1.9000.</p>
+  <p><p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 1.6.1.9001.</p></p>
 </div>
 
       </footer>
@@ -259,6 +264,8 @@ in <code>theta_s_width</code></p></td>
 
   
 
+
+  
 
   </body>
 </html>

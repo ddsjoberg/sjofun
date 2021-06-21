@@ -49,6 +49,8 @@ treatment." />
 
 
 
+
+
 <!-- mathjax -->
 <script src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.5/MathJax.js" integrity="sha256-nvJJv9wWKEm88qvoQl9ekL2J+k/RWIsaSScxxlsrv8k=" crossorigin="anonymous"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.5/config/TeX-AMS-MML_HTMLorMML.js" integrity="sha256-84DKXVJXs0/F8OTMzX4UR909+jtl4G7SPypPavF+GfA=" crossorigin="anonymous"></script>
@@ -60,9 +62,15 @@ treatment." />
 
 
 
+  
+
+  
+
   </head>
 
   <body data-spy="scroll" data-target="#toc">
+    
+
     <div class="container template-reference-topic">
       <header>
       <div class="navbar navbar-default navbar-fixed-top" role="navigation">
@@ -83,12 +91,6 @@ treatment." />
     <div id="navbar" class="navbar-collapse collapse">
       <ul class="nav navbar-nav">
         <li>
-  <a href="../index.html">
-    <span class="fas fa fas fa-home fa-lg"></span>
-     
-  </a>
-</li>
-<li>
   <a href="../reference/index.html">Reference</a>
 </li>
 <li>
@@ -128,16 +130,16 @@ historical data. Thus, the difference between the observed and predicted quantit
 treatment.</p>
     </div>
 
-    <pre class="usage"><span class='fu'>model_diff</span>(
-  <span class='no'>data</span>,
-  <span class='no'>outcome</span>,
-  <span class='no'>covars</span>,
-  <span class='no'>model</span>,
-  <span class='no'>cov</span>,
-  <span class='no'>coef</span>,
-  <span class='kw'>type</span> <span class='kw'>=</span> <span class='st'>"logistic"</span>,
-  <span class='kw'>output.details</span> <span class='kw'>=</span> <span class='fl'>FALSE</span>
-)</pre>
+    <div class="ref-usage sourceCode"><pre class='sourceCode r'><code><span class='fu'>model_diff</span><span class='op'>(</span>
+  <span class='va'>data</span>,
+  <span class='va'>outcome</span>,
+  <span class='va'>covars</span>,
+  <span class='va'>model</span>,
+  <span class='va'>cov</span>,
+  <span class='va'>coef</span>,
+  type <span class='op'>=</span> <span class='st'>"logistic"</span>,
+  output.details <span class='op'>=</span> <span class='cn'>FALSE</span>
+<span class='op'>)</span></code></pre></div>
 
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
     <table class="ref-arguments">
@@ -184,55 +186,62 @@ treatment.</p>
     <p>Heller, Glenn, Michael W. Kattan, and Howard I. Scher. "Improving the decision to pursue a phase 3 clinical trial
 by adjusting for patient-specific factors in evaluating phase 2 treatment efficacy data." Medical Decision Making
 27.4 (2007): 380-386.</p>
+    <h2 class="hasAnchor" id="author"><a class="anchor" href="#author"></a>Author</h2>
+
+    <p>Daniel D Sjoberg <a href='mailto:sjobergd@mskcc.org'>sjobergd@mskcc.org</a></p>
 
     <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
-    <pre class="examples"><div class='input'><span class='fu'><a href='https://rdrr.io/r/base/Random.html'>set.seed</a></span>(<span class='fl'>23432</span>)
-<span class='co'>#simulating historic dataset and creating prediction model.</span>
-<span class='no'>marker</span><span class='kw'>=</span><span class='fu'><a href='https://rdrr.io/r/stats/Normal.html'>rnorm</a></span>(<span class='fl'>500</span>, <span class='kw'>sd</span> <span class='kw'>=</span> <span class='fl'>2</span>)
-<span class='no'>respond</span><span class='kw'>=</span><span class='fu'><a href='https://rdrr.io/r/stats/Uniform.html'>runif</a></span>(<span class='fl'>500</span>)<span class='kw'>&lt;</span><span class='fu'><a href='https://rdrr.io/r/stats/Logistic.html'>plogis</a></span>(<span class='no'>marker</span>)
-<span class='no'>historic.data</span><span class='kw'>=</span><span class='fu'><a href='https://rdrr.io/r/base/data.frame.html'>data.frame</a></span>(<span class='no'>respond</span>,<span class='no'>marker</span>)
-<span class='no'>model.fit</span><span class='kw'>=</span><span class='fu'><a href='https://rdrr.io/r/stats/glm.html'>glm</a></span>(<span class='kw'>data</span><span class='kw'>=</span><span class='no'>historic.data</span>, <span class='kw'>formula</span> <span class='kw'>=</span> <span class='no'>respond</span> ~ <span class='no'>marker</span>, <span class='kw'>family</span> <span class='kw'>=</span> <span class='fu'><a href='https://rdrr.io/r/stats/family.html'>binomial</a></span>(<span class='no'>logit</span>))
-
-<span class='co'>#simulating new data, with higher response rate</span>
-<span class='no'>new.data</span> <span class='kw'>=</span> <span class='no'>marker</span><span class='kw'>=</span><span class='fu'><a href='https://rdrr.io/r/stats/Normal.html'>rnorm</a></span>(<span class='fl'>50</span>, <span class='kw'>sd</span> <span class='kw'>=</span> <span class='fl'>2</span>)
-<span class='no'>respond</span><span class='kw'>=</span><span class='fu'><a href='https://rdrr.io/r/stats/Uniform.html'>runif</a></span>(<span class='fl'>50</span>)<span class='kw'>&lt;</span><span class='fu'><a href='https://rdrr.io/r/stats/Logistic.html'>plogis</a></span>(<span class='no'>marker</span> + <span class='fl'>1</span>)
-<span class='no'>new.data</span><span class='kw'>=</span><span class='fu'><a href='https://rdrr.io/r/base/data.frame.html'>data.frame</a></span>(<span class='no'>respond</span>,<span class='no'>marker</span>)
-
-<span class='co'>#comparing outcomes in new data to those predicted in historic data</span>
-<span class='co'># z-statistic = 2.412611 indicates signficant difference</span>
-<span class='fu'>model_diff</span>(<span class='kw'>data</span> <span class='kw'>=</span> <span class='no'>new.data</span>, <span class='kw'>model</span> <span class='kw'>=</span> <span class='no'>model.fit</span>)</div><div class='output co'>#&gt; $var.tot
-#&gt; [1] 7.43516
-#&gt; 
-#&gt; $V1
-#&gt; [1] 0.1484824
-#&gt; 
-#&gt; $V2
-#&gt;               (Intercept)        marker
-#&gt; (Intercept)  0.0131073611 -0.0004169665
-#&gt; marker      -0.0004169665  0.0082095646
-#&gt; 
-#&gt; $d
-#&gt;   (Intercept)        marker 
-#&gt;  0.1297715107 -0.0006504912 
-#&gt; 
-#&gt; $z
-#&gt; [1] 2.412611
-#&gt; </div><div class='input'>
-<span class='co'>#comparing model based difference with binomial test</span>
-<span class='co'>#p-value of 0.3222 indicates we fail to reject null hypothesis</span>
-<span class='fu'><a href='https://rdrr.io/r/stats/binom.test.html'>binom.test</a></span>(<span class='kw'>x</span><span class='kw'>=</span><span class='fu'><a href='https://rdrr.io/r/base/sum.html'>sum</a></span>(<span class='no'>new.data</span>$<span class='no'>respond</span>), <span class='kw'>n</span><span class='kw'>=</span><span class='fu'><a href='https://rdrr.io/r/base/nrow.html'>nrow</a></span>(<span class='no'>new.data</span>), <span class='kw'>p</span> <span class='kw'>=</span> <span class='fl'>0.5</span>, <span class='kw'>alternative</span> <span class='kw'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span>(<span class='st'>"two.sided"</span>))</div><div class='output co'>#&gt; 
-#&gt; 	Exact binomial test
-#&gt; 
-#&gt; data:  sum(new.data$respond) and nrow(new.data)
-#&gt; number of successes = 29, number of trials = 50, p-value = 0.3222
-#&gt; alternative hypothesis: true probability of success is not equal to 0.5
-#&gt; 95 percent confidence interval:
-#&gt;  0.4320604 0.7181178
-#&gt; sample estimates:
-#&gt; probability of success 
-#&gt;                   0.58 
-#&gt; </div><div class='input'>
-</div></pre>
+    <div class="ref-examples sourceCode"><pre class='sourceCode r'><code><span class='r-in'><span class='fu'><a href='https://rdrr.io/r/base/Random.html'>set.seed</a></span><span class='op'>(</span><span class='fl'>23432</span><span class='op'>)</span></span>
+<span class='r-in'><span class='co'>#simulating historic dataset and creating prediction model.</span></span>
+<span class='r-in'><span class='va'>marker</span><span class='op'>=</span><span class='fu'><a href='https://rdrr.io/r/stats/Normal.html'>rnorm</a></span><span class='op'>(</span><span class='fl'>500</span>, sd <span class='op'>=</span> <span class='fl'>2</span><span class='op'>)</span></span>
+<span class='r-in'><span class='va'>respond</span><span class='op'>=</span><span class='fu'><a href='https://rdrr.io/r/stats/Uniform.html'>runif</a></span><span class='op'>(</span><span class='fl'>500</span><span class='op'>)</span><span class='op'>&lt;</span><span class='fu'><a href='https://rdrr.io/r/stats/Logistic.html'>plogis</a></span><span class='op'>(</span><span class='va'>marker</span><span class='op'>)</span></span>
+<span class='r-in'><span class='va'>historic.data</span><span class='op'>=</span><span class='fu'><a href='https://rdrr.io/r/base/data.frame.html'>data.frame</a></span><span class='op'>(</span><span class='va'>respond</span>,<span class='va'>marker</span><span class='op'>)</span></span>
+<span class='r-in'><span class='va'>model.fit</span><span class='op'>=</span><span class='fu'><a href='https://rdrr.io/r/stats/glm.html'>glm</a></span><span class='op'>(</span>data<span class='op'>=</span><span class='va'>historic.data</span>, formula <span class='op'>=</span> <span class='va'>respond</span> <span class='op'>~</span> <span class='va'>marker</span>, family <span class='op'>=</span> <span class='fu'><a href='https://rdrr.io/r/stats/family.html'>binomial</a></span><span class='op'>(</span><span class='va'>logit</span><span class='op'>)</span><span class='op'>)</span></span>
+<span class='r-in'></span>
+<span class='r-in'><span class='co'>#simulating new data, with higher response rate</span></span>
+<span class='r-in'><span class='va'>new.data</span> <span class='op'>=</span> <span class='va'>marker</span><span class='op'>=</span><span class='fu'><a href='https://rdrr.io/r/stats/Normal.html'>rnorm</a></span><span class='op'>(</span><span class='fl'>50</span>, sd <span class='op'>=</span> <span class='fl'>2</span><span class='op'>)</span></span>
+<span class='r-in'><span class='va'>respond</span><span class='op'>=</span><span class='fu'><a href='https://rdrr.io/r/stats/Uniform.html'>runif</a></span><span class='op'>(</span><span class='fl'>50</span><span class='op'>)</span><span class='op'>&lt;</span><span class='fu'><a href='https://rdrr.io/r/stats/Logistic.html'>plogis</a></span><span class='op'>(</span><span class='va'>marker</span> <span class='op'>+</span> <span class='fl'>1</span><span class='op'>)</span></span>
+<span class='r-in'><span class='va'>new.data</span><span class='op'>=</span><span class='fu'><a href='https://rdrr.io/r/base/data.frame.html'>data.frame</a></span><span class='op'>(</span><span class='va'>respond</span>,<span class='va'>marker</span><span class='op'>)</span></span>
+<span class='r-in'></span>
+<span class='r-in'><span class='co'>#comparing outcomes in new data to those predicted in historic data</span></span>
+<span class='r-in'><span class='co'># z-statistic = 2.412611 indicates signficant difference</span></span>
+<span class='r-in'><span class='fu'>model_diff</span><span class='op'>(</span>data <span class='op'>=</span> <span class='va'>new.data</span>, model <span class='op'>=</span> <span class='va'>model.fit</span><span class='op'>)</span></span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> $var.tot</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> [1] 7.43516</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> </span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> $V1</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> [1] 0.1484824</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> </span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> $V2</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>               (Intercept)        marker</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> (Intercept)  0.0131073611 -0.0004169665</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> marker      -0.0004169665  0.0082095646</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> </span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> $d</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>   (Intercept)        marker </span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>  0.1297715107 -0.0006504912 </span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> </span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> $z</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> [1] 2.412611</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> </span>
+<span class='r-in'></span>
+<span class='r-in'><span class='co'>#comparing model based difference with binomial test</span></span>
+<span class='r-in'><span class='co'>#p-value of 0.3222 indicates we fail to reject null hypothesis</span></span>
+<span class='r-in'><span class='fu'><a href='https://rdrr.io/r/stats/binom.test.html'>binom.test</a></span><span class='op'>(</span>x<span class='op'>=</span><span class='fu'><a href='https://rdrr.io/r/base/sum.html'>sum</a></span><span class='op'>(</span><span class='va'>new.data</span><span class='op'>$</span><span class='va'>respond</span><span class='op'>)</span>, n<span class='op'>=</span><span class='fu'><a href='https://rdrr.io/r/base/nrow.html'>nrow</a></span><span class='op'>(</span><span class='va'>new.data</span><span class='op'>)</span>, p <span class='op'>=</span> <span class='fl'>0.5</span>, alternative <span class='op'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span><span class='op'>(</span><span class='st'>"two.sided"</span><span class='op'>)</span><span class='op'>)</span></span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> </span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> 	Exact binomial test</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> </span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> data:  sum(new.data$respond) and nrow(new.data)</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> number of successes = 29, number of trials = 50, p-value = 0.3222</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> alternative hypothesis: true probability of success is not equal to 0.5</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> 95 percent confidence interval:</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>  0.4320604 0.7181178</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> sample estimates:</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> probability of success </span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>                   0.58 </span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> </span>
+<span class='r-in'></span>
+</code></pre></div>
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="pkgdown-sidebar">
     <nav id="toc" data-toggle="toc" class="sticky-top">
@@ -244,11 +253,11 @@ by adjusting for patient-specific factors in evaluating phase 2 treatment effica
 
       <footer>
       <div class="copyright">
-  <p>Developed by Daniel D. Sjoberg.</p>
+  <p><p>Developed by Daniel D. Sjoberg.</p></p>
 </div>
 
 <div class="pkgdown">
-  <p>Site built with <a href="https://pkgdown.r-lib.org/">pkgdown</a> 1.5.1.9000.</p>
+  <p><p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 1.6.1.9001.</p></p>
 </div>
 
       </footer>
@@ -256,6 +265,8 @@ by adjusting for patient-specific factors in evaluating phase 2 treatment effica
 
   
 
+
+  
 
   </body>
 </html>
